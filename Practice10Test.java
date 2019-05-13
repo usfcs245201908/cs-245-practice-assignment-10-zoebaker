@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Iterator;
 
 
 public class Practice10Test {
@@ -27,16 +28,15 @@ public class Practice10Test {
 		g.addEdge(0, 2);
 		
 		// Check the neighbours...
-		int[] neighbours = g.neighbors(0);
+		Iterator<Integer> neighbours = g.neighbors(0).iterator();
 		boolean contains1 = false;
 		boolean contains2 = false;
 		int items = 0;
-		for (int i = 0; i < neighbours.length; i++) {
+		while (neighbours.hasNext()) {
+			int n = neighbours.next();
 			++items;
-			if (neighbours[i] == 1)
-				contains1 = true;
-			if (neighbours[i] == 2)
-				contains2 = true;
+			if (n == 1) contains1 = true;
+			if (n == 2) contains2 = true;
 		}
 		
 		return contains1 && contains2 && items == 2;

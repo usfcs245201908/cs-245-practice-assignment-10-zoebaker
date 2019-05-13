@@ -6,6 +6,7 @@ public interface Graph {
 	// ... but let's start here.
 	public void addEdge(int v1, int v2);
 	public List<Integer> topologicalSort();
-	public int[] neighbors(int vertex);
+	// public int[] neighbors(int vertex);
+	public List<Integer> neighbors(int vertex);
 
 }
