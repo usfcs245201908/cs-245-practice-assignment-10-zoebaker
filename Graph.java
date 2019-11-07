@@ -1,12 +1,12 @@
+import java.lang.Exception;
 import java.util.List;
 
 public interface Graph {
 	
 	// Eventually, our graphs will include more functions than this
 	// ... but let's start here.
-	public void addEdge(int v1, int v2);
+	public void addEdge(int v1, int v2) throws Exception;
 	public List<Integer> topologicalSort();
-	// public int[] neighbors(int vertex);
-	public List<Integer> neighbors(int vertex);
+	public List<Integer> neighbors(int vertex) throws Exception;
 
 }

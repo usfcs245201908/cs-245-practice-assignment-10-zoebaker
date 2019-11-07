@@ -19,44 +19,64 @@ public class Practice10Test {
 		}
 		return true;
 	}
+
 	
-	
-	public boolean addEdgeTest() {
-		Graph g = getGraph(3);
-		
-		g.addEdge(0,  1);
-		g.addEdge(0, 2);
-		
-		// Check the neighbours...
-		Iterator<Integer> neighbours = g.neighbors(0).iterator();
-		boolean contains1 = false;
-		boolean contains2 = false;
-		int items = 0;
-		while (neighbours.hasNext()) {
-			int n = neighbours.next();
-			++items;
-			if (n == 1) contains1 = true;
-			if (n == 2) contains2 = true;
+	public boolean negativeGraphTest() {
+		// Just create a graph and get invalid edges...
+		try {
+			Graph g = getGraph(5);
+			g.addEdge(4, 5);
+		} catch (Exception e) {
+			return true;
 		}
-		
-		return contains1 && contains2 && items == 2;
+		return false;
 	}
 	
 	
-	public boolean topologicalSortTest() {
-		Graph g = getGraph(3);
-                int [] expected = {0, 2, 1};
+	public boolean addEdgeTest() {
+		try {
+			Graph g = getGraph(3);
 		
-		g.addEdge(0, 1);
-		g.addEdge(0, 2);
-		g.addEdge(2, 1);
-		List<Integer> schedule = g.topologicalSort();
-		if (schedule.size() != 3)
+			g.addEdge(0, 1);
+			g.addEdge(0, 2);
+		
+			// Check the neighbours...
+			Iterator<Integer> neighbours = g.neighbors(0).iterator();
+			boolean contains1 = false;
+			boolean contains2 = false;
+			int items = 0;
+			while (neighbours.hasNext()) {
+				int n = neighbours.next();
+				++items;
+				if (n == 1) contains1 = true;
+				if (n == 2) contains2 = true;
+			}
+		
+			return contains1 && contains2 && items == 2;
+		} catch (Exception e) {
 			return false;
-                for (int i = 0; i < expected.length; i++)
-                	if (schedule.get(i) != expected[i])
+		}
+	}
+
+
+	public boolean topologicalSortTest() {
+		try {
+			Graph g = getGraph(3);
+			int [] expected = {0, 2, 1};
+		
+			g.addEdge(0, 1);
+			g.addEdge(0, 2);
+			g.addEdge(2, 1);
+			List<Integer> schedule = g.topologicalSort();
+			if (schedule.size() != 3)
 				return false;
-		return true;
+			for (int i = 0; i < expected.length; i++)
+				if (schedule.get(i) != expected[i])
+					return false;
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 
@@ -70,6 +90,13 @@ public class Practice10Test {
 			System.out.println("[    ] Failed create graph test");
 		}
 		
+		if (negativeGraphTest()) {
+			grade += 10;
+			System.out.println("[+10%] Passed negative graph test");
+		} else {
+			System.out.println("[    ] Failed negative graph test");
+		}
+		
 		if (addEdgeTest()) {
 			grade += 30;
 			System.out.println("[+30%] Passed adding edge / check neighbours test");
@@ -79,8 +106,8 @@ public class Practice10Test {
 		
 		// Topological sort will be checked by hand, because ...
 		if (topologicalSortTest()) {
-			grade += 60;
-			System.out.println("[+60%] Passed topological sort test");
+			grade += 50;
+			System.out.println("[+50%] Passed topological sort test");
 		} else {
 			System.out.println("[    ] Failed topological sort test");
 		}
