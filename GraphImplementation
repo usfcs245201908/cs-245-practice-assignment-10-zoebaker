@@ -1,0 +1,71 @@
+import java.util.*;
+import java.lang.Exception;
+
+public class GraphImplementation implements Graph {
+    private int [][] adjmatrix;
+    private int vertices;
+
+    public GraphImplementation(int vertices){
+       this.vertices = vertices;
+        adjmatrix = new int [vertices][vertices];
+
+   }
+
+   //adds an unweighted directed edge from vertice src to vertice tar
+   public void addEdge (int src, int tar) throws Exception {
+        // check to see if src and tar are valid indexes for adjmatrix
+        if ( src < 0 || src >= vertices || tar < 0 || tar >= vertices){
+            throw new Exception("Out of Bounds");
+        }
+        // add an unweighted directed edge from src to tar
+        adjmatrix [src][tar] = 1;
+   }
+
+
+    public List<Integer> topologicalSort() {
+       List <Integer> list = new ArrayList<Integer>();
+       int [] sum = new int [vertices];
+       for (int i = 0; i < vertices; i++){
+           for (int j = 0; j < vertices; j++){
+               sum [j] += adjmatrix [i][j];
+           }
+       }
+       for (int count = 0; count < vertices; count ++){
+           int n = findZero(sum);
+           if (n == -1)
+           {
+               return list;
+           }
+           list.add(n);
+           System.out.println(n);
+           sum[n]=-1;
+           for (int i=0; i<vertices; i++)
+               sum[i]-=adjmatrix[n][i];
+       }
+        System.out.println();
+        return list;
+       }
+
+    public List <Integer> neighbors(int vertex) throws Exception {
+        //check to see if vertex is a valid index for adjmatrix
+       if ( vertex < 0 || vertex >= vertices)
+           throw new Exception();
+       List <Integer> neighbors = new ArrayList<Integer>();
+       for (int i = 0; i < vertices; i++){
+           if (adjmatrix[vertex][i]>0)
+               neighbors.add(i);
+       }
+       return neighbors;
+   }
+
+    private int findZero(int [] sum)
+    {
+        for (int i=0; i<vertices; i++)
+        {
+            if (sum[i]==0)
+                return i;
+        }
+        return -1;
+    }
+
+}
